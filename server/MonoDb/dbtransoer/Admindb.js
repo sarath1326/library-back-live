@@ -7,6 +7,9 @@ const fs = require("fs");
 const bcrypt = require("bcrypt");
 
 
+const schema=require("../mongoDB_schema")
+
+
 
 
 
@@ -285,7 +288,7 @@ module.exports.viewpro = () => {      //viewpro query
 
     return new Promise(async (resolve, reject) => {
 
-        const prodata = mongoos.model("products", addproductsschema);
+        const prodata = mongoos.model("products", schema.products_schema);
 
         const result = await prodata.find().lean();
 
@@ -310,7 +313,7 @@ module.exports.onview = (proid) => {   //onview query
 
         try {
 
-            const productsDb = mongoos.model("products", addproductsschema);
+            const productsDb = mongoos.model("products", schema.products_schema);
 
             const findData = await productsDb.findOne({ _id: proid });
 
@@ -345,7 +348,7 @@ module.exports.edit_pro = (proid) => {   //edit products  get  query
 
         try {
 
-            const productsDb = mongoos.model("products", addproductsschema);
+            const productsDb = mongoos.model("products", schema.products_schema);
 
             const finddata = await productsDb.findOne({ _id: proid });
 
@@ -369,7 +372,7 @@ module.exports.edit_pro_post = (post_data) => {   //edit products post query
 
         const { file, data, status } = post_data;
 
-        const productsDB = mongoos.model("products", addproductsschema);
+        const productsDB = mongoos.model("products", schema.products_schema);
 
 
         try {
@@ -456,7 +459,7 @@ module.exports.pro_delete = (proid) => {   //products delete query
 
         try {
 
-            const productsDB = mongoos.model("products", addproductsschema);
+            const productsDB = mongoos.model("products", schema.products_schema);
 
             productsDB.deleteOne({ _id: proid }).then(() => {
 

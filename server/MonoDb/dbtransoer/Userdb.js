@@ -4,6 +4,8 @@
 const mongoos=require("mongoose");
 const bcrypt=require("bcrypt");
 
+const schema=require("../mongoDB_schema")
+
 
 const viewproductschema=new mongoos.Schema({     // products schema
 
@@ -115,7 +117,7 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
                 const obj={};
 
-                const viewprolit=mongoos.model("products",viewproductschema);
+                const viewprolit=mongoos.model("products",schema.products_schema);
 
                  const result = await  viewprolit.find({cotegory:"Literacher"}).limit(limit);
                  
@@ -153,7 +155,7 @@ const cart_schema= new mongoos.Schema({  //cart schma
                    try {
                     const obj={};
                     
-                    const viewproedu=mongoos.model("products",viewproductschema);
+                    const viewproedu=mongoos.model("products",schema.products_schema);
 
                     const result= await  viewproedu.find({cotegory:"Education"}).limit(limit);
 
@@ -188,7 +190,7 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
                         const obj={};
                     
-                    const viewprogen=mongoos.model("products",viewproductschema);
+                    const viewprogen=mongoos.model("products",schema.products_schema);
 
                     const result= await viewprogen.find({cotegory:"Genarl" }).limit(limit);
                     
@@ -223,7 +225,7 @@ const cart_schema= new mongoos.Schema({  //cart schma
                 return new Promise (async(resolve,reject)=>{
 
                    try {
-                    const prodectes=mongoos.model("products",viewproductschema);
+                    const prodectes=mongoos.model("products",schema.products_schema);
 
                     const result= await prodectes.findOne({_id:proid});
                     
@@ -254,7 +256,7 @@ const cart_schema= new mongoos.Schema({  //cart schma
                  return new Promise( async(resolve,reject)=>{
 
                     try {
-                        const prodectes=mongoos.model("products",viewproductschema);
+                        const prodectes=mongoos.model("products",schema.products_schema);
 
                     const result=await prodectes.find({type:protype});
 
