@@ -22,7 +22,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(bodyparser.urlencoded({extended:true}));
 app.use(cors({
     
-  origin:["https://library-site-artb.onrender.com"],
+  origin:["https://library-site-artb.onrender.com","https://library-admin-port.onrender.com"],
   methods:["GET","POST","DELETE"],
   credentials:true
 }));
