@@ -22,6 +22,7 @@ const jwt =require("jsonwebtoken");
               
               }else{
                 res.json({login_failed:true});
+                return
               }
 
             });
@@ -29,6 +30,7 @@ const jwt =require("jsonwebtoken");
 
            }else{
             res.json({login_failed:true});
+            return
            }
 
  
@@ -45,10 +47,12 @@ const jwt =require("jsonwebtoken");
     if(result){
 
       res.json({name:result.name});
+      return
 
     }else{
       
       res.json({not_login:true});
+      return
     
     }
 
@@ -66,21 +70,25 @@ router.post("/master/login",(req,res)=>{   //master login api //
     if(respo.flag){
 
         res.json({flag:true});
+        return
     
       }else if(respo. nomaster){
 
         res.json({nomaster:true});
+        return
  
 
     }else{
      
       res.json({flag:false});
+      return
     
     }
 
   }).catch(err=>{
 
     res.json({err:true});
+    return
 
   })
 
@@ -96,16 +104,19 @@ router.post("/master/login",(req,res)=>{   //master login api //
       if(respo.flag){
        
         res.json({flag:true});
+        return
       
       }else if(respo.email_exit){
 
         res.json({exist:true});
+        return
 
       }
 
     }).catch(err=>{
 
       res.json({err:true});
+      return
 
     })
 
@@ -125,10 +136,12 @@ router.post("/login",(req,res)=>{   //login api
            const token= jwt.sign({id:_id,name:name},"sarath1937admin",{expiresIn:36000}) ;
 
             res.json({flag:true, jwt:token ,admin:name}) ;
+            return
           
           }else{
 
             res.json({flag:false});
+            return
 
           }
 
@@ -158,14 +171,17 @@ router.post("/addproducts",verifiLogin, store.single("image"), (req, res) => {  
     db.addproducts(data).then((respo) => {
 
       res.json("data added sucssfully");
+      return
 
     }).catch(err => {
 
       res.json("filed" + err);
+      return
     })
   } else {
 
     res.json("data not receved in server");
+    return
   }
 
 })
@@ -196,10 +212,13 @@ router.get("/oneview", (req, res) => {   //products details view api
     if (responce.flag) {
 
       res.json({ flag: true, data: responce.data });
+      return
 
     } else {
       
       req.json({ flag: false }); 
+
+      return
     }
 
   }).catch(err => {
@@ -219,11 +238,14 @@ router.get("/edit_pro",verifiLogin, (req, res) => {    //edit products get data 
   db.edit_pro(proid).then((respo) => {
 
     res.json({ flag: true, data: respo.data }) ;
+    return
+
     
 
   }).catch(err => {
 
     res.json({ flag: false }) ;
+    return
 
   })
 
@@ -295,16 +317,19 @@ router.post("/edit_pro", store.single("image"), (req, res) => {  //edit products
             if(respo.flag){
 
               res.json({flag:true,data:respo.data}) ;
+              return
 
             }else{
               
               res.json({flag:false}) ;
+              return
             
             }
 
            }).catch(err=>{
 
               res.json({err:true}) ;
+              return
 
            })
 
@@ -320,9 +345,12 @@ router.post("/edit_pro", store.single("image"), (req, res) => {  //edit products
 
               res.json({flag:true}) ;
 
+              return
+
                }).catch(err=>{
 
                 res.json({flag:false}) ;
+                return
 
                })
 

@@ -800,6 +800,8 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
                         console.log("cart empty")
 
+                        return
+
 
                     }else{
                         
@@ -1424,6 +1426,36 @@ const cart_schema= new mongoos.Schema({  //cart schma
 
 
             })
+
+        },
+
+
+
+        addimaget_get:()=>{
+
+
+               return new Promise(async(resolve,reject)=>{
+
+
+                const viewprolit=mongoos.model("products",schema.products_schema);
+
+
+              const result= viewprolit.find().limit(3)
+
+               if(result){
+
+                resolve(result)
+               
+            }else{
+
+                reject()
+            }
+                    
+
+
+                 
+
+               })
 
         }
 

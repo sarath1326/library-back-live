@@ -22,6 +22,7 @@ const verifiLogin = (req, res, next) => {    //user login verification
     if (!token) {
 
         res.json({ authfaild: true });
+        return
 
 
     } else {
@@ -35,6 +36,7 @@ const verifiLogin = (req, res, next) => {    //user login verification
             } else {
 
                 res.json({ authfaild: true });
+                return
 
 
 
@@ -68,16 +70,19 @@ router.get("/view/lit", (req, res) => {    // lit products get api
         if (respo.flag) {
 
             res.json({ data: respo.data, litefill: true })
+            return
 
         } else {
 
             res.json({ flag: false });
+            return
 
         }
 
     }).catch(err => {
 
         res.json({ err: true });
+        return
 
 
     })
@@ -96,16 +101,19 @@ router.get("/view/edu", (req, res) => {   //edu products get api
         if (respo.flag) {
 
             res.json({ data: respo.data, edufill: true })
+            return
 
         } else {
 
             res.json({ flag: false });
+            return
 
         }
 
     }).catch(err => {
 
         res.json({ err: true });
+        return
 
 
 
@@ -123,16 +131,19 @@ router.get("/view/gen", (req, res) => {  //gen products get api
         if (respo.flag) {
 
             res.json({ data: respo.data, gen: true })
+            return
 
         } else {
 
             res.json({ flag: false });
+            return
 
         }
 
     }).catch(err => {
 
         res.json({ err: true });
+        return
     })
 })
 
@@ -155,6 +166,7 @@ router.get("/oneview", (req, res) => {  // products oneview api
                 }
 
                 res.json(result);
+                return
             })
 
         } else {
@@ -165,6 +177,7 @@ router.get("/oneview", (req, res) => {  // products oneview api
     }).catch(err => {
 
         res.json({ err: true });
+        return
 
     })
 
@@ -183,6 +196,7 @@ router.post("/signup", (req, res) => {   //signup api
             if (respo.exsist) {
 
                 res.json({ exit: true });
+                return
 
             } else {
 
@@ -192,15 +206,19 @@ router.post("/signup", (req, res) => {   //signup api
                     if (respo.flag) {
 
                         res.json({ flag: true });
+                        return
 
                     } else {
 
                         res.json({ flag: false });
+                        return
+
                     }
 
                 }).catch(err => {
 
                     res.json({ err:true });
+                    return
                 })
             }
 
@@ -208,6 +226,7 @@ router.post("/signup", (req, res) => {   //signup api
 
     } else {
         res.json({ flag: false });
+        return
     }
 })
 
@@ -221,15 +240,18 @@ router.post("/otp", (req, res) => {  //otp api
         if (respo.flag) {
 
             res.json({ flag: true });
+            return
         } else {
 
             res.json({ flag: false });
+            return
 
         }
 
     }).catch(err => {
 
         res.json({ err: true });
+        return
 
     })
 
@@ -254,15 +276,19 @@ router.post("/login", (req, res) => {  // login api
             const token = jwt.sign({ name: name, id: _id }, "sarath1937", { expiresIn: 36000  });
 
             res.json({ flag: true, jwtToken: token });
+            return
 
         } else {
 
             res.json({ flag: false });
+            return
+
         }
 
     }).catch(err => {
 
         res.json({ err: true });
+        return
 
     })
 
@@ -277,6 +303,7 @@ router.get("/navbar/username", (req, res) => {   //navbar user name get api
     if (!token) {
 
         res.json({ login: false })
+        return
 
     } else {
 
@@ -286,13 +313,16 @@ router.get("/navbar/username", (req, res) => {   //navbar user name get api
                 db.get_Cartcount(result.id).then((respo) => {
 
                     res.json({ login: true, user: result, count: respo.cartCount })
+                    return
 
                 }).catch(err=>{
                     res.json({err:true})
+                    return
                 })
             } else {
 
                 res.json({ login: false })
+                return
             }
 
 
@@ -340,6 +370,7 @@ router.get("/cart", verifiLogin, (req, res) => { //cart api
         }).catch(err => {
 
            res.json({err:true});
+           return
 
         })
 
@@ -408,6 +439,7 @@ router.get("/add_cart", verifiLogin, (req, res) => { //add cart api
         }).catch(err => {
 
             res.json({err:true});
+            return
 
         })
 
@@ -440,17 +472,20 @@ router.post("/cart_count_change", (req, res) => { //cart count change api
 
                     const total = result.total_price ;
                     res.json({ flag: true, total_price: total });
+                    return
                 
                 })
             
             } else {
 
                 res.json({ flag: false });
+                return
             }
 
         }).catch(err => {
 
            res.json({err:true});
+           return
         })
 
 
@@ -484,11 +519,13 @@ router.delete("/cart_delete", (req, res) => {   //cart delete api
                     if (respo.empty) {
 
                         res.json({ empty: true });
+                        return
 
                     } else {
                          const total = respo.total_price;
                          
                          res.json({ empty: false, total: total });
+                         return
                         
                         }
                      })
@@ -496,6 +533,7 @@ router.delete("/cart_delete", (req, res) => {   //cart delete api
                     }).catch(err=>{
 
                         res.json({err:true});
+                        return
                     })
                 }
              })
@@ -535,25 +573,30 @@ router.post("/place_oder",verifiLogin, (req, res) => {  //place oder api
                      db.cart_full_delete(id).then(() => { })
 
                     res.json({ cod: true });
+                    return
                  } else {
                     
                     Razorpay.generateRazorpay(result.oderid, result.total).then((order) => {
                         
                         res.json({ razorpay_order: order });
+                        return
 
                         }).catch(err => {
 
                         res.json({err:true});
+                        return
                     })
                 }
              } else {
 
                 res.json({ flag: false });
+                return
             }
         
         }).catch(err => {
 
             res.json({err:true});
+            return
         })
 
 
@@ -609,6 +652,8 @@ router.post("/verify_pyment", (req, res) => {  //verify online pyment api
 
             res.json({ flag: true })
 
+            
+
 
 
         })
@@ -660,12 +705,15 @@ router.post("/single_buy",verifiLogin, (req, res) => { //single buy api
 
                          res.json({ cod: true })
                         console.log("cod")
+                        return
                     
                     } else {
                         
                         Razorpay.generateRazorpay(result.oderid, result.total).then((order) => {
                     
                              res.json({ razorpay_order: order })
+                             return
+                            
                             }).catch(err => {
 
                             console.log("razorpay err");
@@ -675,11 +723,13 @@ router.post("/single_buy",verifiLogin, (req, res) => { //single buy api
                 } else {
 
                     res.json({ flag: false })
+                    return
                 }
 
             }).catch(err => {
 
                 res.json({err:true})
+                return
 
             })
 
@@ -706,6 +756,7 @@ router.post("/single_buy/verify_pyment", (req, res) => {  //singil buy verify py
 
 
             res.json({ flag: true })
+            return
 
 
         }).catch(err => {
@@ -721,6 +772,7 @@ router.post("/single_buy/verify_pyment", (req, res) => {  //singil buy verify py
         console.log("pyment err:", err)
 
         res.json({ flag: false })
+        return
 
     })
 
@@ -748,10 +800,13 @@ router.get("/myorder", verifiLogin, (req, res) => {    // my oder show page
                 if (respo.flag) {
 
                     res.json({ flag: true, data: respo.data });
+                    return
 
                 } else {
 
                     res.json({ flag: false });
+
+                    return
                 
                 }
 
@@ -765,6 +820,7 @@ router.get("/myorder", verifiLogin, (req, res) => {    // my oder show page
         } else {
 
             res.json({err:true});
+            return
         }
     })
 
@@ -779,13 +835,33 @@ router.get("/plcepro", async (req, res) => {   //plac pro view
     if (result.flag) {
 
         res.json({ flag: true, data: result.data });
+        return
 
 
     } else {
 
         res.json({ flag: false }); 
+        return
 
     }
+
+})
+
+
+ 
+router.get("/addimages",(req,res)=>{
+
+        db.addimaget_get().then((respo)=>{
+
+             
+              res.json({flag:true,data:respo})
+       
+            }).catch(err=>{
+
+              res.json({flag:false})
+           
+            })
+       
 
 })
 
